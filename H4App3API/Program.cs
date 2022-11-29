@@ -31,9 +31,11 @@ builder.Services.AddDbContext<ScrumContext>(
 
 builder.Services.AddScoped<ICardRepository, CardRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IColumnRepository, ColumnRepository>();
 
 builder.Services.AddScoped<ICardService, CardService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IColumnService, ColumnService>();
 
 var app = builder.Build();
 

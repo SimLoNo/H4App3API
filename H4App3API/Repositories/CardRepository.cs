@@ -61,8 +61,10 @@ namespace H4App3API.Repositories
 			Card updateCard = await _context.CardTable.FirstOrDefaultAsync(card => card.CardId == id);
 			if (updateCard != null)
 			{
-
 				updateCard.CardStatus = Card.CardStatus;
+				updateCard.CardDescription = Card.CardDescription;
+				updateCard.UserId = Card.UserId;
+				updateCard.Title= Card.Title;
 				await _context.SaveChangesAsync();
 			}
 				return updateCard;

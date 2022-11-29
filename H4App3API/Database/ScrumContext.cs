@@ -13,7 +13,8 @@ namespace H4App3API.Database
         public DbSet<Attachment> AttachmentsTable { get; set; }
         public DbSet<Card> CardTable { get; set; }
         public DbSet<User> UserTable { get; set; }
-        
+        public DbSet<Column> ColumnTable { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

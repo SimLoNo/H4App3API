@@ -7,7 +7,7 @@ namespace H4App3API.Services
     public interface ICardService
     {
         Task<List<Card>> GetAllCards();
-		Task<Card> UpdateStatusOnCard(int id, Card card);
+		Task<Card> UpdateStatusOnCard(int id, CardRequest card);
 		Task<Card> AddCard(CardRequest card);
 		Task<Card> DeleteCard(int id);
 	}
@@ -24,9 +24,10 @@ namespace H4App3API.Services
             return await _repository.GetAllCards();
         }
 
-		public async Task<Card> UpdateStatusOnCard(int id, Card card)
+		public async Task<Card> UpdateStatusOnCard(int id, CardRequest card)
         {
-            return await _repository.UpdateStatusOnCard(id, card);
+            Card updateCard = MapCardRequestToCard(card);
+            return await _repository.UpdateStatusOnCard(id, updateCard);
 		}
 		public async Task<Card> AddCard(CardRequest cardRequest)
         {

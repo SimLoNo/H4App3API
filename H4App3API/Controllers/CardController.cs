@@ -38,9 +38,9 @@ namespace H4App3API.Controllers
             }
 
 		[HttpPut("{id}")]
-		public async Task<IActionResult> UpdateStatusOnCard([FromRoute] int id, [FromBody] Card card)
+		public async Task<IActionResult> UpdateStatusOnCard([FromRoute] int id, [FromBody] CardRequest card)
 		{
-			if (card.CardId > 0)
+			if (id > 0)
 			{
 				try
 				{
