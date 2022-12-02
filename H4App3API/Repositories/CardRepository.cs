@@ -75,7 +75,7 @@ namespace H4App3API.Repositories
 				{
 					var mailMessage = new MimeMessage();
 					mailMessage.From.Add(new MailboxAddress("Scrumboard", "scrumboardapp@snoerregaard.dk"));
-					mailMessage.To.Add(new MailboxAddress("User", "dwaf@live.dk"));
+					mailMessage.To.Add(new MailboxAddress("User", "krik@zbc.dk"));
 					mailMessage.Subject = $"Card {updateCard.Title} has been finished";
 					mailMessage.Body = new TextPart("")
 					{
