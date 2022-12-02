@@ -1,6 +1,8 @@
 ﻿using H4App3API.Database;
 using H4App3API.Models;
+using MailKit.Net.Smtp;
 using Microsoft.EntityFrameworkCore;
+using MimeKit;
 
 namespace H4App3API.Repositories
 {
@@ -58,7 +60,9 @@ namespace H4App3API.Repositories
 
         public async Task<Card> UpdateStatusOnCard(int id, Card Card)
 		{
-			Card updateCard = await _context.CardTable.FirstOrDefaultAsync(card => card.CardId == id);
+			Card updateCard = await _context.CardTable
+				.Include(u => u.AssignedUser)
+				.FirstOrDefaultAsync(card => card.CardId == id);
 			if (updateCard != null)
 			{
 				updateCard.CardStatus = Card.CardStatus;
@@ -66,6 +70,26 @@ namespace H4App3API.Repositories
 				updateCard.UserId = Card.UserId;
 				updateCard.Title= Card.Title;
 				await _context.SaveChangesAsync();
+
+				if (updateCard.CardStatus == "Done")
+				{
+					var mailMessage = new MimeMessage();
+					mailMessage.From.Add(new MailboxAddress("Scrumboard", "scrumboardapp@snoerregaard.dk"));
+					mailMessage.To.Add(new MailboxAddress("User", "dwaf@live.dk"));
+					mailMessage.Subject = $"Card {updateCard.Title} has been finished";
+					mailMessage.Body = new TextPart("")
+					{
+						Text = $"Card {updateCard.Title} Assigned to {updateCard.AssignedUser.UserName} has been moved to {updateCard.CardStatus}."
+					};
+
+					using (var smtpClient = new SmtpClient())
+					{
+						smtpClient.Connect("send.one.com", 465, true);
+						smtpClient.Authenticate("scrumboardapp@snoerregaard.dk", "H4Kode123");
+						smtpClient.Send(mailMessage);
+						smtpClient.Disconnect(true);
+					}
+				}
 			}
 				return updateCard;
 		}
